@@ -138,8 +138,8 @@ class QGPipeline:
                 sents_copy = sents[:]
                 
                 answer_text = answer_text.strip()
-                
-                if answer_text in sent:
+
+                if answer_text and answer_text in sent:
                     ans_start_idx = sent.index(answer_text)
                 else:
                     continue
