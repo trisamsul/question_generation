@@ -136,7 +136,7 @@ class QGPipeline:
             for answer_text in answer:
                 sent = sents[i]
 
-                if sent:
+                if sent and answer_text:
                     sents_copy = sents[:]
 
                     answer_text = answer_text.strip()
