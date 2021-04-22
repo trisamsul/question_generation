@@ -135,29 +135,21 @@ class QGPipeline:
             if len(answer) == 0: continue
             for answer_text in answer:
                 sent = sents[i]
+                sents_copy = sents[:]
 
-                if sent and answer_text:
-                    sents_copy = sents[:]
+                answer_text = answer_text.strip()
+                
+                ans_start_idx = sent.index(answer_text)
 
-                    answer_text = answer_text.strip()
+                sent = f"{sent[:ans_start_idx]} <hl> {answer_text} <hl> {sent[ans_start_idx + len(answer_text): ]}"
+                sents_copy[i] = sent
 
-                    print("sent:", sent)
-                    print("answer_text:", answer_text)
+                source_text = " ".join(sents_copy)
+                source_text = f"generate question: {source_text}"
+                if self.model_type == "t5":
+                    source_text = source_text + " </s>"
 
-                    if answer_text in sent:
-                        ans_start_idx = sent.index(answer_text)
-                    else:
-                        continue
-
-                    sent = f"{sent[:ans_start_idx]} <hl> {answer_text} <hl> {sent[ans_start_idx + len(answer_text): ]}"
-                    sents_copy[i] = sent
-
-                    source_text = " ".join(sents_copy)
-                    source_text = f"generate question: {source_text}"
-                    if self.model_type == "t5":
-                        source_text = source_text + " </s>"
-
-                    inputs.append({"answer": answer_text, "source_text": source_text})
+                inputs.append({"answer": answer_text, "source_text": source_text})
         
         return inputs
     
