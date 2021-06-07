@@ -1,0 +1,6 @@
+transformers==3.0.0
+nlp==0.2.0
+torch
+nltk
+wikipedia
+Flask
